@@ -1,0 +1,9 @@
+# Локальные настройки Claude Code
+.claude/
+
+# IDE
+.idea/
+.vscode/
+
+# ОС
+.DS_Store

@@ -1,0 +1,70 @@
+// Сгенерировано scripts/generate_data.py из scripts/input/cities.txt
+import { visitedCountries } from './countries-data.js';
+
+const map = L.map('map').setView([20, 0], 2);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors',
+  maxZoom: 18,
+}).addTo(map);
+
+const visitedSet = new Set(visitedCountries);
+
+const VISITED_STYLE = { fillColor: '#2e7d32', fillOpacity: 0.6, color: '#1b5e20', weight: 1 };
+const OTHER_STYLE = { fillColor: '#cccccc', fillOpacity: 0.15, color: '#999999', weight: 0.5 };
+const HIGHLIGHT_STYLE = { fillColor: '#ffb300', fillOpacity: 0.8, color: '#e65100', weight: 2 };
+
+function styleFeature(feature) {
+  const code = feature.properties['ISO3166-1-Alpha-2'];
+  return visitedSet.has(code) ? VISITED_STYLE : OTHER_STYLE;
+}
+
+const geojson = await fetch('data/world-countries.geojson').then((r) => r.json());
+
+const layersByCode = new Map();
+
+const geoLayer = L.geoJSON(geojson, {
+  style: styleFeature,
+  onEachFeature: (feature, layer) => {
+    const code = feature.properties['ISO3166-1-Alpha-2'];
+    layer.bindTooltip(feature.properties.name);
+    if (visitedSet.has(code)) {
+      layersByCode.set(code, layer);
+      layer.on('mouseover', () => setActive(code));
+      layer.on('mouseout', () => setActive(null));
+    }
+  },
+}).addTo(map);
+
+const legendList = document.getElementById('legend-list');
+let activeCode = null;
+
+function setActive(code) {
+  if (activeCode === code) return;
+
+  if (activeCode !== null) {
+    geoLayer.resetStyle(layersByCode.get(activeCode));
+    legendList.querySelector(`[data-code="${activeCode}"]`)?.classList.remove('active');
+  }
+
+  activeCode = code;
+
+  if (activeCode !== null) {
+    layersByCode.get(activeCode).setStyle(HIGHLIGHT_STYLE);
+    legendList.querySelector(`[data-code="${activeCode}"]`)?.classList.add('active');
+  }
+}
+
+const visitedFeatures = geojson.features
+  .filter((f) => visitedSet.has(f.properties['ISO3166-1-Alpha-2']))
+  .sort((a, b) => a.properties.name.localeCompare(b.properties.name));
+
+for (const feature of visitedFeatures) {
+  const code = feature.properties['ISO3166-1-Alpha-2'];
+  const item = document.createElement('li');
+  item.textContent = feature.properties.name;
+  item.dataset.code = code;
+  item.addEventListener('mouseenter', () => setActive(code));
+  item.addEventListener('mouseleave', () => setActive(null));
+  legendList.appendChild(item);
+}
