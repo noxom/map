@@ -24,7 +24,9 @@ function setActive(id) {
 
   if (activeId !== null) {
     markersById.get(activeId).marker._icon?.classList.add('pin-highlight');
-    legendList.querySelector(`[data-id="${activeId}"]`)?.classList.add('active');
+    const item = legendList.querySelector(`[data-id="${activeId}"]`);
+    item?.classList.add('active');
+    item?.scrollIntoView({ block: 'nearest' });
   }
 }
 
@@ -77,7 +79,8 @@ places.forEach((p, index) => {
   const id = p.geonameid ?? index;
   const marker = L.marker([p.lat, p.lng])
     .addTo(map)
-    .bindPopup(`<b>${p.name}</b>${p.year ? `<br>${p.year}` : ''}`);
+    .bindPopup(`<b>${p.name}</b>${p.year ? `<br>${p.year}` : ''}`)
+    .bindTooltip(`${p.name}, ${countryName(p.country)}`, { direction: 'top', offset: [0, -32] });
 
   marker.on('mouseover', () => setActive(id));
   marker.on('mouseout', () => setActive(null));

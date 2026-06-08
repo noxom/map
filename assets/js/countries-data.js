@@ -1,5 +1,21 @@
 export const visitedCountries = [
+  "AE",
+  "AM",
+  "AZ",
+  "BG",
   "CY",
+  "GE",
+  "JP",
+  "KH",
+  "KR",
+  "KZ",
+  "MY",
+  "PH",
+  "RS",
   "RU",
-  "TR"
+  "TH",
+  "TR",
+  "UZ",
+  "VN",
+  "ZA"
 ];
