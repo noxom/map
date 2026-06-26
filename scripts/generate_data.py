@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Генерирует data/places.json и data/countries.json по списку городов
-из scripts/input/cities.txt, используя локальный дамп GeoNames.
+"""Generates assets/js/places-data.js and assets/js/countries-data.js
+from scripts/input/cities.csv using a local GeoNames dump.
 
-Запуск: python3 scripts/generate_data.py
+Usage: python3 scripts/generate_data.py
 """
 
 import csv
@@ -17,8 +17,9 @@ INPUT_FILE = Path(__file__).parent / "input" / "cities.csv"
 EXTRA_PLACES_FILE = Path(__file__).parent / "input" / "extra-places.csv"
 PLACES_DATA_JS = ROOT / "assets" / "js" / "places-data.js"
 COUNTRIES_DATA_JS = ROOT / "assets" / "js" / "countries-data.js"
+PHOTO_DIR = "assets/img"
 
-# Колонки cities*.txt (tab-separated), см. http://download.geonames.org/export/dump/readme.txt
+# Columns of cities*.txt (tab-separated), see http://download.geonames.org/export/dump/readme.txt
 COL_GEONAMEID = 0
 COL_NAME = 1
 COL_ASCIINAME = 2
@@ -53,9 +54,7 @@ def load_index():
 
 
 def read_input_cities():
-    """CSV-файл с колонками name,geonameid. geonameid опционален — указывается
-    только для устранения неоднозначности (если городов с таким именем несколько,
-    например небольшие города в разных странах)."""
+    """CSV file with columns name,geonameid,photo. geonameid and photo are optional."""
     cities = []
     with open(INPUT_FILE, encoding="utf-8", newline="") as f:
         lines = (line for line in f if not line.lstrip().startswith("#"))
@@ -64,15 +63,16 @@ def read_input_cities():
             if not name:
                 continue
             raw_id = (row.get("geonameid") or "").strip()
-            cities.append((name, int(raw_id) if raw_id else None))
+            photo = (row.get("photo") or "").strip()
+            cities.append((name, int(raw_id) if raw_id else None, f"{PHOTO_DIR}/{photo}" if photo else None))
     return cities
 
 
 def read_extra_places():
-    """CSV с произвольными точками, не привязанными к городам из GeoNames
-    (острова, достопримечательности и т.п.). Колонки: name,country,lat,lng.
-    `country` нужен только для группировки в легенде на странице с пинами —
-    на закраску карты стран эти записи не влияют (у них нет geonameid)."""
+    """CSV with arbitrary points not tied to GeoNames cities
+    (islands, landmarks, etc.). Columns: name,country,lat,lng,photo.
+    `country` is used only for legend grouping - these entries do not
+    affect country map coloring (they have no geonameid)."""
     if not EXTRA_PLACES_FILE.exists():
         return []
     extra = []
@@ -82,17 +82,22 @@ def read_extra_places():
             name = (row.get("name") or "").strip()
             if not name:
                 continue
-            extra.append({
+            entry = {
                 "name": name,
                 "country": (row.get("country") or "").strip(),
                 "lat": float(row["lat"]),
                 "lng": float(row["lng"]),
-            })
+                "type": "place",
+            }
+            photo = (row.get("photo") or "").strip()
+            if photo:
+                entry["photo"] = f"{PHOTO_DIR}/{photo}"
+            extra.append(entry)
     return extra
 
 
 def read_existing_places():
-    """Читает уже сгенерированный places-data.js (если есть), чтобы не дублировать записи."""
+    """Reads the already-generated places-data.js (if present) to avoid duplicates."""
     if not PLACES_DATA_JS.exists():
         return []
     text = PLACES_DATA_JS.read_text(encoding="utf-8")
@@ -104,8 +109,8 @@ def read_existing_places():
 
 
 def write_js_array_atomic(file, var_name, value):
-    """Пишет во временный файл и атомарно заменяет целевой — успешная предыдущая
-    генерация не будет испорчена, если что-то пойдёт не так на полпути."""
+    """Writes to a temp file then atomically replaces the target - a previously
+    successful generation is not corrupted if something fails midway."""
     body = json.dumps(value, ensure_ascii=False, indent=2)
     tmp = file.with_suffix(file.suffix + ".tmp")
     tmp.write_text(f"export const {var_name} = {body};\n", encoding="utf-8")
@@ -113,8 +118,8 @@ def write_js_array_atomic(file, var_name, value):
 
 
 def resolve_city(by_name, by_id, name, geonameid):
-    """Возвращает строку GeoNames для города или None, если не найдена.
-    Если указан geonameid — ищем сразу по нему, поиск по названию не используется."""
+    """Returns the GeoNames row for a city, or None if not found.
+    If geonameid is given, looks it up directly without name search."""
     if geonameid is not None:
         return by_id.get(geonameid)
 
@@ -125,50 +130,61 @@ def resolve_city(by_name, by_id, name, geonameid):
 
 
 def main():
+    force = "--force" in sys.argv
     by_name, by_id = load_index()
     cities = read_input_cities()
 
-    places = read_existing_places()
+    places = [] if force else read_existing_places()
     known_ids = {p["geonameid"] for p in places if p.get("geonameid")}
 
-    for name, geonameid in cities:
+    for name, geonameid, photo in cities:
         row = resolve_city(by_name, by_id, name, geonameid)
         if row is None:
             if geonameid is not None:
                 sys.exit(
-                    f'[ОШИБКА] Город "{name}" с geonameid={geonameid} не найден в базе GeoNames.\n'
-                    f'Проверьте значение geonameid в строке "{name},{geonameid}" файла {INPUT_FILE.name}.\n'
-                    f'Генерация прервана, файлы не изменены.'
+                    f'[ERROR] City "{name}" with geonameid={geonameid} not found in GeoNames.\n'
+                    f'Check the geonameid in line "{name},{geonameid}" of {INPUT_FILE.name}.\n'
+                    f'Generation aborted, files unchanged.'
                 )
             sys.exit(
-                f'[ОШИБКА] Город "{name}" не найден в базе GeoNames.\n'
-                f'Если это маленький город и название неуникально (например, есть тёзки в разных странах),\n'
-                f'укажите его geonameid явно вторым столбцом: "{name},<geonameid>" в {INPUT_FILE.name}\n'
-                f'(найти id можно на https://www.geonames.org/ через поиск по названию).\n'
-                f'Генерация прервана, файлы не изменены.'
+                f'[ERROR] City "{name}" not found in GeoNames.\n'
+                f'If this is a small city with a non-unique name, specify its geonameid explicitly\n'
+                f'as the second column: "{name},<geonameid>" in {INPUT_FILE.name}\n'
+                f'(find the id at https://www.geonames.org/ via name search).\n'
+                f'Generation aborted, files unchanged.'
             )
 
         found_id = int(row[COL_GEONAMEID])
         if found_id in known_ids:
-            print(f'[=] "{name}" уже есть в places-data.js (geonameid {found_id}) — пропущен')
+            if photo:
+                for p in places:
+                    if p.get("geonameid") == found_id and p.get("photo") != photo:
+                        p["photo"] = photo
+                        print(f'[~] "{name}" photo updated (geonameid {found_id})')
+            else:
+                print(f'[=] "{name}" already in places-data.js (geonameid {found_id}) - skipped')
             continue
 
-        places.append({
+        entry = {
             "name": row[COL_NAME],
             "country": row[COL_COUNTRY_CODE],
             "lat": float(row[COL_LATITUDE]),
             "lng": float(row[COL_LONGITUDE]),
             "geonameid": found_id,
-        })
+            "type": "city",
+        }
+        if photo:
+            entry["photo"] = photo
+        places.append(entry)
         known_ids.add(found_id)
         print(f'[+] "{name}" -> {row[COL_NAME]}, {row[COL_COUNTRY_CODE]} (geonameid {found_id})')
 
-    # Карта стран красится только по городам из GeoNames (у них есть geonameid).
+    # Country map is colored only by GeoNames cities (those have geonameid).
     visited = sorted({p["country"] for p in places if p.get("geonameid")})
     write_js_array_atomic(COUNTRIES_DATA_JS, "visitedCountries", visited)
 
-    # Произвольные точки (острова, достопримечательности и т.п.) добавляются в список
-    # мест для отображения и легенды, но не влияют на закраску карты стран.
+    # Arbitrary points (islands, landmarks, etc.) are added to the places list
+    # for display and legend, but do not affect country map coloring.
     existing_extra = {(p["name"], p["lat"], p["lng"]) for p in places if not p.get("geonameid")}
     extra_count = 0
     for extra in read_extra_places():
@@ -178,11 +194,11 @@ def main():
         places.append(extra)
         existing_extra.add(key)
         extra_count += 1
-        print(f'[+] "{extra["name"]}" -> произвольная точка, {extra["country"] or "без страны"}')
+        print(f'[+] "{extra["name"]}" -> custom point, {extra["country"] or "no country"}')
 
     write_js_array_atomic(PLACES_DATA_JS, "places", places)
 
-    print(f"\nГотово: {len(places)} мест ({extra_count} произвольных точек), {len(visited)} стран.")
+    print(f"\nDone: {len(places)} places ({extra_count} custom points), {len(visited)} countries.")
     print(f"-> {PLACES_DATA_JS.relative_to(ROOT)}")
     print(f"-> {COUNTRIES_DATA_JS.relative_to(ROOT)}")
 
