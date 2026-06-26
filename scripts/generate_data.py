@@ -9,10 +9,13 @@ import csv
 import json
 import os
 import sys
+import urllib.request
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-CITIES_DUMP = Path(__file__).parent / "data" / "cities500.txt"
+CITIES_DUMP = ROOT / ".cache" / "cities500.txt"
+CITIES_DUMP_URL = "https://download.geonames.org/export/dump/cities500.zip"
 INPUT_FILE = Path(__file__).parent / "input" / "cities.csv"
 EXTRA_PLACES_FILE = Path(__file__).parent / "input" / "extra-places.csv"
 PLACES_DATA_JS = ROOT / "assets" / "js" / "places-data.js"
@@ -28,6 +31,19 @@ COL_LATITUDE = 4
 COL_LONGITUDE = 5
 COL_COUNTRY_CODE = 8
 COL_POPULATION = 14
+
+
+def ensure_cities_dump():
+    if CITIES_DUMP.exists():
+        return
+    CITIES_DUMP.parent.mkdir(parents=True, exist_ok=True)
+    zip_path = CITIES_DUMP.with_suffix(".zip")
+    print(f"Downloading {CITIES_DUMP_URL} ...")
+    urllib.request.urlretrieve(CITIES_DUMP_URL, zip_path)
+    with zipfile.ZipFile(zip_path) as zf:
+        zf.extract("cities500.txt", CITIES_DUMP.parent)
+    zip_path.unlink()
+    print("Download complete.")
 
 
 def load_index():
@@ -131,6 +147,7 @@ def resolve_city(by_name, by_id, name, geonameid):
 
 def main():
     force = "--force" in sys.argv
+    ensure_cities_dump()
     by_name, by_id = load_index()
     cities = read_input_cities()
 
