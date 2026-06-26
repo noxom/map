@@ -5,5 +5,8 @@
 .idea/
 .vscode/
 
+# GeoNames cache (downloaded automatically)
+.cache/
+
 # ОС
 .DS_Store

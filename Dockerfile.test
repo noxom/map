@@ -1,0 +1,5 @@
+FROM node:22-alpine
+WORKDIR /app
+COPY assets/js/utils.js assets/js/utils.js
+COPY tests/utils.test.js tests/utils.test.js
+CMD ["node", "--test", "tests/utils.test.js"]
