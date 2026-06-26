@@ -10,14 +10,22 @@ nav {
 }
 
 nav a {
-  color: #fff;
+  color: #aaa;
   text-decoration: none;
   margin-right: 1rem;
   font-family: sans-serif;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  transition: color 0.15s ease;
 }
 
 nav a:hover {
-  text-decoration: underline;
+  color: #fff;
+}
+
+nav a.active {
+  color: #fff;
+  background: #444;
 }
 
 #map {
@@ -46,9 +54,34 @@ nav a:hover {
   box-sizing: border-box;
 }
 
+#legend-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
 #legend h2 {
-  font-size: 1rem;
-  margin: 0 0 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #888;
+  margin: 0;
+}
+
+#places-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  color: #888;
+  cursor: pointer;
+  user-select: none;
+}
+
+#places-toggle input {
+  cursor: pointer;
 }
 
 #legend ul {

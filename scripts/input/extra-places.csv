@@ -1,13 +1,14 @@
-# Произвольные точки, не привязанные к городам из GeoNames
-# (острова, достопримечательности и т.п.) — без geonameid.
-# Колонки: name,country,lat,lng
-# `country` нужен только для группировки в легенде на странице с пинами;
-# на закраску карты стран эти точки НЕ влияют.
+# Arbitrary points not tied to GeoNames cities
+# (islands, landmarks, etc.) - no geonameid.
+# Columns: name,country,lat,lng
+# `country` is used only for legend grouping on the pins page;
+# these points do NOT affect country map coloring.
 #
-# Координаты можно посмотреть на странице города на geonames.org
-# или через поиск на nominatim.openstreetmap.org.
+# Coordinates can be found on the city page at geonames.org
+# or via search at nominatim.openstreetmap.org.
 #
-# Пример:
+# Example:
 #   Ko Phi Phi,TH,7.7407,98.7784
-name,country,lat,lng
-Ko Phi Phi,TH,7.7407,98.7784
+name,country,lat,lng,photo
+Ko Phi Phi,TH,7.7407,98.7784,phi-phi.jpg
+Angkor Wat,KH,13.4124693,103.8644054,
