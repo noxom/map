@@ -164,7 +164,7 @@ def process_photo(name: str, photo_filename: str, source_dir: Path, args, errors
             print(f"  [!] {msg}")
             errors.append(msg)
             return ""
-    return str(dest.relative_to(IMG_DIR))
+    return dest.relative_to(IMG_DIR).as_posix()
 
 
 # --- place.csv handling ---

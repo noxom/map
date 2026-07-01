@@ -48,7 +48,7 @@ export const places = [
     "lng": 47.246,
     "geonameid": 569696,
     "type": "city",
-    "photo": "assets/img/RU\\cheboksary.jpg"
+    "photo": "assets/img/RU/cheboksary.jpg"
   },
   {
     "name": "Yakutsk",
@@ -57,7 +57,7 @@ export const places = [
     "lng": 129.72288,
     "geonameid": 2013159,
     "type": "city",
-    "photo": "assets/img/RU\\yakutsk.jpg"
+    "photo": "assets/img/RU/yakutsk.jpg"
   },
   {
     "name": "Bangkok",
@@ -66,7 +66,7 @@ export const places = [
     "lng": 100.50144,
     "geonameid": 1609350,
     "type": "city",
-    "photo": "assets/img/TH\\bangkok.jpg"
+    "photo": "assets/img/TH/bangkok.jpg"
   },
   {
     "name": "Krabi",
@@ -75,7 +75,7 @@ export const places = [
     "lng": 98.91052,
     "geonameid": 1152633,
     "type": "city",
-    "photo": "assets/img/TH\\krabi.jpg"
+    "photo": "assets/img/TH/krabi.jpg"
   },
   {
     "name": "Phuket",
@@ -84,7 +84,7 @@ export const places = [
     "lng": 98.3981,
     "geonameid": 1151254,
     "type": "city",
-    "photo": "assets/img/TH\\phuket.jpg"
+    "photo": "assets/img/TH/phuket.jpg"
   },
   {
     "name": "Phnom Penh",
@@ -93,7 +93,7 @@ export const places = [
     "lng": 104.91601,
     "geonameid": 1821306,
     "type": "city",
-    "photo": "assets/img/KH\\phnom-penh.jpg"
+    "photo": "assets/img/KH/phnom-penh.jpg"
   },
   {
     "name": "Pattaya",
@@ -102,7 +102,7 @@ export const places = [
     "lng": 100.88333,
     "geonameid": 1614295,
     "type": "city",
-    "photo": "assets/img/TH\\pattaya.jpg"
+    "photo": "assets/img/TH/pattaya.jpg"
   },
   {
     "name": "Cape Town",
@@ -111,7 +111,7 @@ export const places = [
     "lng": 18.42322,
     "geonameid": 3369157,
     "type": "city",
-    "photo": "assets/img/ZA\\cape-town.jpg"
+    "photo": "assets/img/ZA/cape-town.jpg"
   },
   {
     "name": "Cherskiy",
@@ -120,7 +120,7 @@ export const places = [
     "lng": 161.33099,
     "geonameid": 2126199,
     "type": "city",
-    "photo": "assets/img/RU\\cherskiy.jpg"
+    "photo": "assets/img/RU/cherskiy.jpg"
   },
   {
     "name": "Moscow",
@@ -129,7 +129,7 @@ export const places = [
     "lng": 37.61781,
     "geonameid": 524901,
     "type": "city",
-    "photo": "assets/img/RU\\moscow.jpg"
+    "photo": "assets/img/RU/moscow.jpg"
   },
   {
     "name": "Pyatigorsk",
@@ -138,7 +138,7 @@ export const places = [
     "lng": 43.05036,
     "geonameid": 503550,
     "type": "city",
-    "photo": "assets/img/RU\\pyatigorsk.jpg"
+    "photo": "assets/img/RU/pyatigorsk.jpg"
   },
   {
     "name": "Kaluga",
@@ -147,7 +147,7 @@ export const places = [
     "lng": 36.27,
     "geonameid": 553915,
     "type": "city",
-    "photo": "assets/img/RU\\kaluga.jpg"
+    "photo": "assets/img/RU/kaluga.jpg"
   },
   {
     "name": "Tula",
@@ -156,7 +156,7 @@ export const places = [
     "lng": 37.61822,
     "geonameid": 480562,
     "type": "city",
-    "photo": "assets/img/RU\\tula.jpg"
+    "photo": "assets/img/RU/tula.jpg"
   },
   {
     "name": "Saint Petersburg",
@@ -165,7 +165,7 @@ export const places = [
     "lng": 30.31413,
     "geonameid": 498817,
     "type": "city",
-    "photo": "assets/img/RU\\saint-petersburg.jpg"
+    "photo": "assets/img/RU/saint-petersburg.jpg"
   },
   {
     "name": "Istanbul",
@@ -174,7 +174,7 @@ export const places = [
     "lng": 28.94966,
     "geonameid": 745044,
     "type": "city",
-    "photo": "assets/img/TR\\istanbul.jpg"
+    "photo": "assets/img/TR/istanbul.jpg"
   },
   {
     "name": "Almaty",
@@ -183,7 +183,7 @@ export const places = [
     "lng": 76.9115,
     "geonameid": 1526384,
     "type": "city",
-    "photo": "assets/img/KZ\\almata.jpg"
+    "photo": "assets/img/KZ/almata.jpg"
   },
   {
     "name": "Paphos",
@@ -192,7 +192,7 @@ export const places = [
     "lng": 32.42451,
     "geonameid": 146214,
     "type": "city",
-    "photo": "assets/img/CY\\paphos.jpg"
+    "photo": "assets/img/CY/paphos.jpg"
   },
   {
     "name": "Limassol",
@@ -201,7 +201,7 @@ export const places = [
     "lng": 33.03794,
     "geonameid": 146384,
     "type": "city",
-    "photo": "assets/img/CY\\limassol.jpg"
+    "photo": "assets/img/CY/limassol.jpg"
   },
   {
     "name": "Larnaca",
@@ -210,7 +210,7 @@ export const places = [
     "lng": 33.62794,
     "geonameid": 146400,
     "type": "city",
-    "photo": "assets/img/CY\\larnaca.jpg"
+    "photo": "assets/img/CY/larnaca.jpg"
   },
   {
     "name": "Kutaisi",
@@ -219,7 +219,7 @@ export const places = [
     "lng": 42.69459,
     "geonameid": 613607,
     "type": "city",
-    "photo": "assets/img/GE\\kutaisi.jpg"
+    "photo": "assets/img/GE/kutaisi.jpg"
   },
   {
     "name": "Tashkent",
@@ -228,7 +228,7 @@ export const places = [
     "lng": 69.21627,
     "geonameid": 1512569,
     "type": "city",
-    "photo": "assets/img/UZ\\tashkent.jpg"
+    "photo": "assets/img/UZ/tashkent.jpg"
   },
   {
     "name": "Samarkand",
@@ -237,7 +237,7 @@ export const places = [
     "lng": 66.96445,
     "geonameid": 1216265,
     "type": "city",
-    "photo": "assets/img/UZ\\samarkand.jpg"
+    "photo": "assets/img/UZ/samarkand.jpg"
   },
   {
     "name": "Baku",
@@ -246,7 +246,7 @@ export const places = [
     "lng": 49.89201,
     "geonameid": 587084,
     "type": "city",
-    "photo": "assets/img/AZ\\baku.jpg"
+    "photo": "assets/img/AZ/baku.jpg"
   },
   {
     "name": "Tbilisi",
@@ -255,7 +255,7 @@ export const places = [
     "lng": 44.83412,
     "geonameid": 611717,
     "type": "city",
-    "photo": "assets/img/GE\\tbilisi.jpg"
+    "photo": "assets/img/GE/tbilisi.jpg"
   },
   {
     "name": "Abu Dhabi",
@@ -264,7 +264,7 @@ export const places = [
     "lng": 54.39696,
     "geonameid": 292968,
     "type": "city",
-    "photo": "assets/img/AE\\abu-dhabi.jpg"
+    "photo": "assets/img/AE/abu-dhabi.jpg"
   },
   {
     "name": "Dubai",
@@ -273,7 +273,7 @@ export const places = [
     "lng": 55.30927,
     "geonameid": 292223,
     "type": "city",
-    "photo": "assets/img/AE\\dubai.jpg"
+    "photo": "assets/img/AE/dubai.jpg"
   },
   {
     "name": "Nicosia",
@@ -282,7 +282,7 @@ export const places = [
     "lng": 33.35397,
     "geonameid": 146268,
     "type": "city",
-    "photo": "assets/img/CY\\nicosia.jpg"
+    "photo": "assets/img/CY/nicosia.jpg"
   },
   {
     "name": "Hiroshima",
@@ -291,7 +291,7 @@ export const places = [
     "lng": 132.45,
     "geonameid": 1862415,
     "type": "city",
-    "photo": "assets/img/JP\\hirosima.jpg"
+    "photo": "assets/img/JP/hirosima.jpg"
   },
   {
     "name": "Okayama",
@@ -300,7 +300,7 @@ export const places = [
     "lng": 133.93333,
     "geonameid": 1854383,
     "type": "city",
-    "photo": "assets/img/JP\\okayama.jpg"
+    "photo": "assets/img/JP/okayama.jpg"
   },
   {
     "name": "Kobe",
@@ -309,7 +309,7 @@ export const places = [
     "lng": 135.183,
     "geonameid": 1859171,
     "type": "city",
-    "photo": "assets/img/JP\\kobe.jpg"
+    "photo": "assets/img/JP/kobe.jpg"
   },
   {
     "name": "Nara-shi",
@@ -318,7 +318,7 @@ export const places = [
     "lng": 135.80485,
     "geonameid": 1855612,
     "type": "city",
-    "photo": "assets/img/JP\\nara.jpg"
+    "photo": "assets/img/JP/nara.jpg"
   },
   {
     "name": "Osaka",
@@ -327,7 +327,7 @@ export const places = [
     "lng": 135.50107,
     "geonameid": 1853909,
     "type": "city",
-    "photo": "assets/img/JP\\osaka.jpg"
+    "photo": "assets/img/JP/osaka.jpg"
   },
   {
     "name": "Kyoto",
@@ -336,7 +336,7 @@ export const places = [
     "lng": 135.75385,
     "geonameid": 1857910,
     "type": "city",
-    "photo": "assets/img/JP\\kyoto.jpg"
+    "photo": "assets/img/JP/kyoto.jpg"
   },
   {
     "name": "Seoul",
@@ -345,7 +345,7 @@ export const places = [
     "lng": 126.9784,
     "geonameid": 1835848,
     "type": "city",
-    "photo": "assets/img/KR\\seoul.jpg"
+    "photo": "assets/img/KR/seoul.jpg"
   },
   {
     "name": "Nagoya",
@@ -354,7 +354,7 @@ export const places = [
     "lng": 136.90641,
     "geonameid": 1856057,
     "type": "city",
-    "photo": "assets/img/JP\\nagoya.jpg"
+    "photo": "assets/img/JP/nagoya.jpg"
   },
   {
     "name": "Tokyo",
@@ -363,7 +363,7 @@ export const places = [
     "lng": 139.69171,
     "geonameid": 1850147,
     "type": "city",
-    "photo": "assets/img/JP\\tokyo.jpg"
+    "photo": "assets/img/JP/tokyo.jpg"
   },
   {
     "name": "Saitama",
@@ -372,7 +372,7 @@ export const places = [
     "lng": 139.65657,
     "geonameid": 6940394,
     "type": "city",
-    "photo": "assets/img/JP\\saitama.jpg"
+    "photo": "assets/img/JP/saitama.jpg"
   },
   {
     "name": "Yerevan",
@@ -381,7 +381,7 @@ export const places = [
     "lng": 44.5126,
     "geonameid": 616052,
     "type": "city",
-    "photo": "assets/img/AM\\erevan.jpg"
+    "photo": "assets/img/AM/erevan.jpg"
   },
   {
     "name": "Astana",
@@ -390,7 +390,7 @@ export const places = [
     "lng": 71.44598,
     "geonameid": 1526273,
     "type": "city",
-    "photo": "assets/img/KZ\\astana.jpg"
+    "photo": "assets/img/KZ/astana.jpg"
   },
   {
     "name": "Manila",
@@ -399,7 +399,7 @@ export const places = [
     "lng": 120.9822,
     "geonameid": 1701668,
     "type": "city",
-    "photo": "assets/img/PH\\manila.jpg"
+    "photo": "assets/img/PH/manila.jpg"
   },
   {
     "name": "Novosibirsk",
@@ -408,7 +408,7 @@ export const places = [
     "lng": 82.93175,
     "geonameid": 1496747,
     "type": "city",
-    "photo": "assets/img/RU\\novosibirsk.jpg"
+    "photo": "assets/img/RU/novosibirsk.jpg"
   },
   {
     "name": "Ho Chi Minh City",
@@ -417,7 +417,7 @@ export const places = [
     "lng": 106.62965,
     "geonameid": 1566083,
     "type": "city",
-    "photo": "assets/img/VN\\ho-chi-minh-city.jpg"
+    "photo": "assets/img/VN/ho-chi-minh-city.jpg"
   },
   {
     "name": "Subotica",
@@ -426,7 +426,7 @@ export const places = [
     "lng": 19.66667,
     "geonameid": 3189595,
     "type": "city",
-    "photo": "assets/img/RS\\subotica.jpg"
+    "photo": "assets/img/RS/subotica.jpg"
   },
   {
     "name": "Novi Sad",
@@ -435,7 +435,7 @@ export const places = [
     "lng": 19.83694,
     "geonameid": 3194360,
     "type": "city",
-    "photo": "assets/img/RS\\novi-sad.jpg"
+    "photo": "assets/img/RS/novi-sad.jpg"
   },
   {
     "name": "Belgrade",
@@ -444,7 +444,7 @@ export const places = [
     "lng": 20.46513,
     "geonameid": 792680,
     "type": "city",
-    "photo": "assets/img/RS\\belgrade.jpg"
+    "photo": "assets/img/RS/belgrade.jpg"
   },
   {
     "name": "Buluus",
@@ -452,7 +452,7 @@ export const places = [
     "lat": 61.3378946,
     "lng": 129.0703488,
     "type": "place",
-    "photo": "assets/img/RU\\buluus.jpg"
+    "photo": "assets/img/RU/buluus.jpg"
   },
   {
     "name": "Ko Phi Phi",
@@ -460,7 +460,7 @@ export const places = [
     "lat": 7.7407,
     "lng": 98.7784,
     "type": "place",
-    "photo": "assets/img/TH\\ko-phi-phi.jpg"
+    "photo": "assets/img/TH/ko-phi-phi.jpg"
   },
   {
     "name": "Angkor Wat",
@@ -468,7 +468,7 @@ export const places = [
     "lat": 13.4124693,
     "lng": 103.8644054,
     "type": "place",
-    "photo": "assets/img/KH\\angkor-wat.jpg"
+    "photo": "assets/img/KH/angkor-wat.jpg"
   },
   {
     "name": "Cape of Good Hope",
@@ -476,7 +476,7 @@ export const places = [
     "lat": -34.3586894,
     "lng": 18.457325,
     "type": "place",
-    "photo": "assets/img/ZA\\cape-of-good-hope.jpg"
+    "photo": "assets/img/ZA/cape-of-good-hope.jpg"
   },
   {
     "name": "Boulders Penguin Beach",
@@ -484,7 +484,7 @@ export const places = [
     "lat": -34.1956139,
     "lng": 18.4319045,
     "type": "place",
-    "photo": "assets/img/ZA\\boulders-penguin-beach.jpg"
+    "photo": "assets/img/ZA/boulders-penguin-beach.jpg"
   },
   {
     "name": "Charyn Canyon National Park",
@@ -492,7 +492,7 @@ export const places = [
     "lat": 43.3512576,
     "lng": 79.0765667,
     "type": "place",
-    "photo": "assets/img/KZ\\charyn-canyon-national-park.jpg"
+    "photo": "assets/img/KZ/charyn-canyon-national-park.jpg"
   },
   {
     "name": "Kolsai Lake",
@@ -500,7 +500,7 @@ export const places = [
     "lat": 42.9356652,
     "lng": 78.3171557,
     "type": "place",
-    "photo": "assets/img/KZ\\kolsai-lake.jpg"
+    "photo": "assets/img/KZ/kolsai-lake.jpg"
   },
   {
     "name": "Big Almaty Lake",
@@ -508,7 +508,7 @@ export const places = [
     "lat": 43.0574854,
     "lng": 76.9822781,
     "type": "place",
-    "photo": "assets/img/KZ\\big-almaty-lake.jpg"
+    "photo": "assets/img/KZ/big-almaty-lake.jpg"
   },
   {
     "name": "Chulman",
@@ -516,7 +516,7 @@ export const places = [
     "lat": 56.8609737,
     "lng": 124.8182858,
     "type": "place",
-    "photo": "assets/img/RU\\chulman.jpg"
+    "photo": "assets/img/RU/chulman.jpg"
   },
   {
     "name": "Kysyl-Syr",
@@ -524,7 +524,7 @@ export const places = [
     "lat": 63.8927341,
     "lng": 122.7407539,
     "type": "place",
-    "photo": "assets/img/RU\\kysyl-syr.jpg"
+    "photo": "assets/img/RU/kysyl-syr.jpg"
   },
   {
     "name": "Mt Elbrus",
@@ -532,7 +532,7 @@ export const places = [
     "lat": 43.349967,
     "lng": 42.4247305,
     "type": "place",
-    "photo": "assets/img/RU\\mt-elbrus.jpg"
+    "photo": "assets/img/RU/mt-elbrus.jpg"
   },
   {
     "name": "Tower Kurt and Taga",
@@ -540,7 +540,7 @@ export const places = [
     "lat": 42.85048,
     "lng": 44.3142507,
     "type": "place",
-    "photo": "assets/img/RU\\tower-kurt-and-taga.jpg"
+    "photo": "assets/img/RU/tower-kurt-and-taga.jpg"
   },
   {
     "name": "Atomic Bomb Dome 原爆ドーム",
@@ -548,6 +548,6 @@ export const places = [
     "lat": 34.3795263,
     "lng": 132.4807799,
     "type": "place",
-    "photo": "assets/img/JP\\atomic-bomb-dome-原爆ドーム.jpg"
+    "photo": "assets/img/JP/atomic-bomb-dome-原爆ドーム.jpg"
   }
 ];
