@@ -9,7 +9,7 @@ export function countryName(code) {
 }
 
 export function countryFlag(code) {
-  return [...code.toUpperCase()].map(c => String.fromCodePoint(0x1F1E6 - 65 + c.charCodeAt(0))).join('');
+  return `<span class="fi fi-${code.toLowerCase()}"></span>`;
 }
 
 export function styleFeature(visitedSet, feature) {
@@ -30,7 +30,7 @@ export function groupByCountry(places) {
 }
 
 export function popupHtml(place) {
-  let html = `<b>${place.name}</b>`;
+  let html = `<b>${place.name}</b>, ${countryName(place.country)}`;
   if (place.year) html += `<br>${place.year}`;
   if (place.photo) html += `<br><img src="${place.photo}" style="width:200px;margin-top:6px;border-radius:4px;display:block">`;
   return html;
