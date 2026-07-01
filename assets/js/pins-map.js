@@ -44,7 +44,7 @@ const countryEntries = [...byCountry.entries()].sort((a, b) =>
 for (const [code, cities] of countryEntries) {
   const countryItem = document.createElement('li');
   countryItem.className = 'country';
-  countryItem.textContent = `${countryFlag(code)} ${countryName(code)}`;
+  countryItem.innerHTML = `${countryFlag(code)} ${countryName(code)}`;
   legendList.appendChild(countryItem);
 
   const cityList = document.createElement('ul');

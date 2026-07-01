@@ -8,5 +8,8 @@
 # GeoNames cache (downloaded automatically)
 .cache/
 
+# Collect logs
+scripts/logs/
+
 # ОС
 .DS_Store

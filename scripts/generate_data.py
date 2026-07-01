@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generates assets/js/places-data.js and assets/js/countries-data.js
-from scripts/input/cities.csv using a local GeoNames dump.
+from scripts/input/cities.csv (and optional mega-cities.csv) using a local GeoNames dump.
 
 Usage: python3 scripts/generate_data.py
 """
@@ -18,6 +18,9 @@ CITIES_DUMP = ROOT / ".cache" / "cities500.txt"
 CITIES_DUMP_URL = "https://download.geonames.org/export/dump/cities500.zip"
 INPUT_FILE = Path(__file__).parent / "input" / "cities.csv"
 EXTRA_PLACES_FILE = Path(__file__).parent / "input" / "extra-places.csv"
+# Optional files written by an external script; picked up if present, ignored otherwise.
+GENERATED_CITIES_FILE = Path(__file__).parent / "input" / "mega-cities.csv"
+GENERATED_PLACES_FILE = Path(__file__).parent / "input" / "mega-places.csv"
 PLACES_DATA_JS = ROOT / "assets" / "js" / "places-data.js"
 COUNTRIES_DATA_JS = ROOT / "assets" / "js" / "countries-data.js"
 PHOTO_DIR = "assets/img"
@@ -69,10 +72,10 @@ def load_index():
     return by_name, by_id
 
 
-def read_input_cities():
+def _read_cities_file(path):
     """CSV file with columns name,geonameid,photo. geonameid and photo are optional."""
     cities = []
-    with open(INPUT_FILE, encoding="utf-8", newline="") as f:
+    with open(path, encoding="utf-8", newline="") as f:
         lines = (line for line in f if not line.lstrip().startswith("#"))
         for row in csv.DictReader(lines):
             name = (row.get("name") or "").strip()
@@ -84,15 +87,24 @@ def read_input_cities():
     return cities
 
 
-def read_extra_places():
-    """CSV with arbitrary points not tied to GeoNames cities
-    (islands, landmarks, etc.). Columns: name,country,lat,lng,photo.
-    `country` is used only for legend grouping - these entries do not
-    affect country map coloring (they have no geonameid)."""
-    if not EXTRA_PLACES_FILE.exists():
-        return []
+def read_input_cities():
+    """Reads cities.csv and, if present, mega-cities.csv. Deduplicates by name+geonameid."""
+    cities = _read_cities_file(INPUT_FILE)
+    if GENERATED_CITIES_FILE.exists():
+        seen = {(name, gid) for name, gid, _ in cities}
+        for entry in _read_cities_file(GENERATED_CITIES_FILE):
+            key = (entry[0], entry[1])
+            if key not in seen:
+                cities.append(entry)
+                seen.add(key)
+        print(f"[i] Loaded supplementary cities from {GENERATED_CITIES_FILE.name}")
+    return cities
+
+
+def _read_places_file(path):
+    """CSV with arbitrary points. Columns: name,country,lat,lng,photo."""
     extra = []
-    with open(EXTRA_PLACES_FILE, encoding="utf-8", newline="") as f:
+    with open(path, encoding="utf-8", newline="") as f:
         lines = (line for line in f if not line.lstrip().startswith("#"))
         for row in csv.DictReader(lines):
             name = (row.get("name") or "").strip()
@@ -109,6 +121,24 @@ def read_extra_places():
             if photo:
                 entry["photo"] = f"{PHOTO_DIR}/{photo}"
             extra.append(entry)
+    return extra
+
+
+def read_extra_places():
+    """Reads extra-places.csv and, if present, mega-places.csv.
+    `country` is used only for legend grouping - these entries do not
+    affect country map coloring (they have no geonameid)."""
+    extra = []
+    if EXTRA_PLACES_FILE.exists():
+        extra = _read_places_file(EXTRA_PLACES_FILE)
+    if GENERATED_PLACES_FILE.exists():
+        seen = {(e["name"], e["lat"], e["lng"]) for e in extra}
+        for entry in _read_places_file(GENERATED_PLACES_FILE):
+            key = (entry["name"], entry["lat"], entry["lng"])
+            if key not in seen:
+                extra.append(entry)
+                seen.add(key)
+        print(f"[i] Loaded supplementary places from {GENERATED_PLACES_FILE.name}")
     return extra
 
 
@@ -131,6 +161,35 @@ def write_js_array_atomic(file, var_name, value):
     tmp = file.with_suffix(file.suffix + ".tmp")
     tmp.write_text(f"export const {var_name} = {body};\n", encoding="utf-8")
     os.replace(tmp, file)
+
+
+def move_photo_to_country(photo_rel, country):
+    """Ensures photo is at assets/img/{COUNTRY}/filename. Handles three cases:
+    - already in correct country subfolder → return as-is
+    - file exists in country subfolder (moved by collect) → return new path
+    - file exists flat → move it and return new path
+    """
+    if not photo_rel:
+        return photo_rel
+    filename = Path(photo_rel).name
+    country_upper = country.upper()
+    dest_rel = f"{PHOTO_DIR}/{country_upper}/{filename}"
+    # Already pointing to correct country subfolder
+    parts = Path(photo_rel).parts
+    if len(parts) >= 3 and parts[2].upper() == country_upper:
+        return photo_rel
+    # File already moved to country subfolder by collect_places.py
+    if (ROOT / dest_rel).exists():
+        return dest_rel
+    # File still flat — move it
+    src = ROOT / photo_rel
+    if not src.exists():
+        return photo_rel
+    dest_dir = ROOT / PHOTO_DIR / country_upper
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    os.replace(src, ROOT / dest_rel)
+    print(f'[mv] "{filename}" -> {dest_rel}')
+    return dest_rel
 
 
 def resolve_city(by_name, by_id, name, geonameid):
@@ -172,8 +231,10 @@ def main():
             )
 
         found_id = int(row[COL_GEONAMEID])
+        country = row[COL_COUNTRY_CODE]
         if found_id in known_ids:
             if photo:
+                photo = move_photo_to_country(photo, country)
                 for p in places:
                     if p.get("geonameid") == found_id and p.get("photo") != photo:
                         p["photo"] = photo
@@ -184,14 +245,14 @@ def main():
 
         entry = {
             "name": row[COL_NAME],
-            "country": row[COL_COUNTRY_CODE],
+            "country": country,
             "lat": float(row[COL_LATITUDE]),
             "lng": float(row[COL_LONGITUDE]),
             "geonameid": found_id,
             "type": "city",
         }
         if photo:
-            entry["photo"] = photo
+            entry["photo"] = move_photo_to_country(photo, country)
         places.append(entry)
         known_ids.add(found_id)
         print(f'[+] "{name}" -> {row[COL_NAME]}, {row[COL_COUNTRY_CODE]} (geonameid {found_id})')
@@ -208,6 +269,8 @@ def main():
         key = (extra["name"], extra["lat"], extra["lng"])
         if key in existing_extra:
             continue
+        if extra.get("photo") and extra.get("country"):
+            extra["photo"] = move_photo_to_country(extra["photo"], extra["country"])
         places.append(extra)
         existing_extra.add(key)
         extra_count += 1
