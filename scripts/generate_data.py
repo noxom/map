@@ -177,7 +177,7 @@ def move_photo_to_country(photo_rel, country):
     # Already pointing to correct country subfolder
     parts = Path(photo_rel).parts
     if len(parts) >= 3 and parts[2].upper() == country_upper:
-        return photo_rel
+        return photo_rel.replace("\\", "/")
     # File already moved to country subfolder by collect_places.py
     if (ROOT / dest_rel).exists():
         return dest_rel
